@@ -29,7 +29,21 @@ def dijkstra(puzzle):
 
     while len(fringe) > 0:
         # remove the following line and complete the algorithm
-        assert False
+        # assert False
+        _, u = heapq.heappop(fringe)
+        if u.to_string() in concluded:
+            continue
+        concluded.add(u.to_string())
+        for a in u.get_actions():
+            v = u.apply_action(a)
+            # if v.to_string() not in distances:
+            #     distances[v.to_string()] = distances[u.to_string()] + 1
+            #     prev[v.to_string()] = u
+            #     heapq.heappush(fringe, (distances[v.to_string()], v))
+            if v.to_string() not in distances or distances[v.to_string()] > distances[u.to_string()] + 1:
+                distances[v.to_string()] = distances[u.to_string()] + 1
+                prev[v.to_string()] = u
+                heapq.heappush(fringe, (distances[v.to_string()], v))
     return prev
 
 
