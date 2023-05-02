@@ -33,6 +33,8 @@ def dijkstra(puzzle):
         _, u = heapq.heappop(fringe)
         if u.to_string() in concluded:
             continue
+        if u.is_same(goal):
+            break
         concluded.add(u.to_string())
         for a in u.get_actions():
             v = u.apply_action(a)

@@ -32,8 +32,19 @@ def a_star(puzzle):
 
     while len(fringe) > 0:
         # remove the following line and complete the algorithm
-        assert False
-
+        # assert False
+        _, u = heapq.heappop(fringe)
+        if u.to_string() in concluded:
+            continue
+        if u.is_same(goal):
+            break
+        concluded.add(u.to_string())
+        for a in u.get_actions():
+            v = u.apply_action(a)
+            if v.to_string() not in distances or distances[v.to_string()] > distances[u.to_string()] + 1:
+                distances[v.to_string()] = distances[u.to_string()] + 1
+                prev[v.to_string()] = u
+                heapq.heappush(fringe, (distances[v.to_string()] + v.get_manhattan_distance(goal), v))
     return prev
 
 
