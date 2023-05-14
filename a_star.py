@@ -29,6 +29,7 @@ def a_star(puzzle):
     # the return value of the algorithm, a mapping from a state (as a string) to the state leading to it (NOT as string)
     # that achieves the minimal distance to the starting state of puzzle.
     prev = {initial.to_string(): None}
+    # i = 0
 
     while len(fringe) > 0:
         # remove the following line and complete the algorithm
@@ -40,11 +41,14 @@ def a_star(puzzle):
             break
         concluded.add(u.to_string())
         for a in u.get_actions():
+            # i+=1
             v = u.apply_action(a)
             if v.to_string() not in distances or distances[v.to_string()] > distances[u.to_string()] + 1:
                 distances[v.to_string()] = distances[u.to_string()] + 1
                 prev[v.to_string()] = u
-                heapq.heappush(fringe, (distances[v.to_string()] + v.get_manhattan_distance(goal), v))
+                heapq.heappush(fringe, (distances[v.to_string()] + v.get_manhattan_distance(goal)*1, v))
+                # heapq.heappush(fringe, (distances[v.to_string()] + v.get_incorrect_tiles_distance(goal), v))
+    # print(i)
     return prev
 
 
@@ -61,12 +65,15 @@ if __name__ == '__main__':
     # we create some start and goal states. the number of actions between them is 25 although a shorter plan of
     # length 19 exists (make sure your plan is of the same length)
     initial_state = State()
+    # import os
+    # initial_state = State("0 7 6" + os.linesep + "5 3 4" + os.linesep + "2 1 8")
     actions = [
         'r', 'r', 'd', 'l', 'u', 'l', 'd', 'd', 'r', 'r', 'u', 'l', 'd', 'r', 'u', 'u', 'l', 'd', 'l', 'd', 'r', 'r',
         'u', 'l', 'u'
     ]
     goal_state = initial_state
     for a in actions:
+        # goal_state = State()
         goal_state = goal_state.apply_action(a)
     puzzle = Puzzle(initial_state, goal_state)
     print('original number of actions:{}'.format(len(actions)))
