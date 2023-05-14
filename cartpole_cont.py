@@ -11,7 +11,7 @@ class CartPoleContEnv(gym.Env):
         'video.frames_per_second': 50
     }
 
-    def __init__(self, initial_theta=0.0):
+    def __init__(self, initial_theta=0):
         self.gravity = 9.8
         self.masscart = 1.0
         self.masspole = 0.1
@@ -32,7 +32,7 @@ class CartPoleContEnv(gym.Env):
             np.finfo(np.float32).max])
 
         self.observation_space = spaces.Box(-high, high, dtype=np.float32)
-        high = np.array([100.0])
+        high = np.array([100])
         self.action_space = spaces.Box(-high, high, dtype=np.float32)
 
         self.seed()
@@ -149,8 +149,9 @@ if __name__ == '__main__':
     env.reset()
     env.render()
     is_done = False
+    template_action = env.action_space.sample()
     while not is_done:
-        _, r, is_done, _ = env.step(np.array([0.0]))
+        _, r, is_done, _ = env.step(template_action)
         env.render()
         print(r)
     # run random forces
